@@ -35,6 +35,14 @@ class Input {
   pressed(code) {
     return this.keys.has(code);
   }
+
+  press(code) {
+    this.keys.add(code);
+  }
+
+  release(code) {
+    this.keys.delete(code);
+  }
 }
 
 class Bullet {
@@ -157,6 +165,7 @@ class Game {
     this.lastTime = 0;
     this.spawnEnemies();
     this.bindUI();
+    this.bindTouchControls();
     this.syncHUD();
     // 自动开始，避免用户忘记点击开始
     setTimeout(() => this.start(), 200);
@@ -180,6 +189,44 @@ class Game {
         this.reset();
       }
     });
+  }
+
+  bindTouchControls() {
+    const bindHold = (id, code) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      const start = (e) => {
+        e.preventDefault();
+        this.input.press(code);
+      };
+      const end = (e) => {
+        e.preventDefault();
+        this.input.release(code);
+      };
+      btn.addEventListener("touchstart", start);
+      btn.addEventListener("touchend", end);
+      btn.addEventListener("touchcancel", end);
+      // 兼容鼠标点击
+      btn.addEventListener("mousedown", start);
+      btn.addEventListener("mouseup", end);
+      btn.addEventListener("mouseleave", end);
+    };
+
+    bindHold("btnUp", "ArrowUp");
+    bindHold("btnDown", "ArrowDown");
+    bindHold("btnLeft", "ArrowLeft");
+    bindHold("btnRight", "ArrowRight");
+    bindHold("btnShoot", "Space");
+
+    const resetBtn = document.getElementById("btnReset");
+    if (resetBtn) {
+      const tapReset = (e) => {
+        e.preventDefault();
+        this.reset();
+      };
+      resetBtn.addEventListener("touchstart", tapReset);
+      resetBtn.addEventListener("mousedown", tapReset);
+    }
   }
 
   spawnEnemies() {

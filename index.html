@@ -19,12 +19,27 @@
       <span id="lives">生命: 3</span>
       <span id="status">状态: 待机</span>
     </div>
-    <p class="hint">操作: 方向键移动 · 空格射击 · R 重开</p>
+    <p class="hint">操作: 方向键/屏幕按键移动 · 空格射击 · R 重开</p>
   </header>
 
   <main>
     <canvas id="game" width="900" height="600"></canvas>
   </main>
+
+  <section class="mobile-controls" aria-label="触屏操作">
+    <div class="dpad">
+      <button id="btnUp">↑</button>
+      <div class="middle-row">
+        <button id="btnLeft">←</button>
+        <button id="btnRight">→</button>
+      </div>
+      <button id="btnDown">↓</button>
+    </div>
+    <div class="actions">
+      <button id="btnShoot">射击</button>
+      <button id="btnReset">重开</button>
+    </div>
+  </section>
 
   <footer>
     <p>简单示例，可按需扩展关卡、音效与美术。</p>
