@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>坦克大战</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>坦克大战</h1>
+    <div class="controls">
+      <button id="startBtn">开始</button>
+      <button id="pauseBtn">暂停</button>
+      <button id="resetBtn">重开</button>
+    </div>
+    <div class="hud">
+      <span id="score">得分: 0</span>
+      <span id="lives">生命: 3</span>
+      <span id="status">状态: 待机</span>
+    </div>
+    <p class="hint">操作: 方向键移动 · 空格射击 · R 重开</p>
+  </header>
+
+  <main>
+    <canvas id="game" width="900" height="600"></canvas>
+  </main>
+
+  <footer>
+    <p>简单示例，可按需扩展关卡、音效与美术。</p>
+  </footer>
+
+  <script type="module" src="src/game.js"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>满屏爱心</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", "PingFang SC", Arial, sans-serif;
+      color: #ffeef7;
+      background: radial-gradient(circle at 20% 20%, #2b0f2f, #0b0813 60%);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 2;
+      padding: 24px 28px;
+      border: 1px solid rgba(255, 109, 167, 0.35);
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      font-size: 32px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #ffd7e8;
+      margin-bottom: 16px;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: 1px solid rgba(255, 134, 191, 0.6);
+      background: linear-gradient(135deg, #ff5f9f, #ff7ec7);
+      color: #fff;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(255, 95, 159, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 36px rgba(255, 95, 159, 0.45);
+    }
+
+    #hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      opacity: 0;
+      animation: rise linear forwards;
+      filter: drop-shadow(0 6px 8px rgba(255, 90, 150, 0.25));
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(0.9) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.95;
+      }
+      60% {
+        transform: translateY(-50vh) scale(1.05) rotate(8deg);
+      }
+      100% {
+        transform: translateY(-110vh) scale(1) rotate(-10deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>满屏爱心</h1>
+    <p>让爱心不停飘落，点亮你的屏幕。</p>
+    <button id="toggle">暂停飘落</button>
+  </div>
+
+  <div id="hearts" aria-hidden="true"></div>
+
+  <script>
+    const hearts = document.getElementById("hearts");
+    const toggleBtn = document.getElementById("toggle");
+    const palette = ["#ff4d8d", "#ff7fbf", "#ffd1dc", "#ff94c2", "#ff5f6d"];
+    let running = true;
+
+    const spawnHeart = () => {
+      if (!running) return;
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${6 + Math.random() * 5}s`;
+      heart.style.fontSize = `${12 + Math.random() * 28}px`;
+      heart.style.color = palette[Math.floor(Math.random() * palette.length)];
+      hearts.appendChild(heart);
+      setTimeout(() => heart.remove(), 11000);
+    };
+
+    const loop = setInterval(spawnHeart, 180);
+
+    toggleBtn.addEventListener("click", () => {
+      running = !running;
+      toggleBtn.textContent = running ? "暂停飘落" : "继续飘落";
+    });
+
+    // 给初始状态一些爱心
+    for (let i = 0; i < 25; i++) {
+      setTimeout(spawnHeart, i * 120);
+    }
+
+    // 防止页面隐藏时堆积节点
+    document.addEventListener("visibilitychange", () => {
+      running = !document.hidden;
+      toggleBtn.textContent = running ? "暂停飘落" : "继续飘落";
+    });
+  </script>
+</body>
+</html>
+
+
